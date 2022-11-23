@@ -1,0 +1,24 @@
+.sidebar {
+   list-style-type: none;
+   padding: unset;
+
+
+   li {
+      padding: 12px;
+      cursor: pointer;
+      border-bottom: 1px solid #e5e5e5;
+   }
+
+   li:hover{
+      background-color: #3fb558;
+      color: white;
+      transform: scale(1.05);
+   }
+
+   a{
+      text-decoration: none;
+      color: unset;
+   }
+
+
+}

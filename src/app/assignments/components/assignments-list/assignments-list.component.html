@@ -1,0 +1,40 @@
+<h1>{{titre}}</h1>
+<h2>Liste des assignments :</h2>
+
+
+<main>
+
+
+
+   <button mat-flat-button color="accent"> <a routerLink="/add"> Ajouter Assignment</a>
+   </button>
+
+   <mat-list-item (click)="assignmentClique(assignment)" *ngFor="let assignment of assignments" [ngClass]="{
+       'rendu':assignment.rendu,
+       'nonrendu':'2px solid blue'
+      }">
+
+      <nav>
+         <a routerLink="/assignement/{{assignment.id}}">
+            <p *ngIf="assignment.rendu; else nonsoumis">
+               {{assignment.nom}}, à rendre le {{assignment.dateDeRendu | date}},
+               soumis par l'élève : {{assignment.rendu}}.
+            </p>
+
+
+            <ng-template #nonsoumis>
+               <p>Le devoir {{assignment.nom}} n'a pas été rendu !</p>
+            </ng-template>
+
+
+            <mat-divider></mat-divider>
+         </a>
+      </nav>
+   </mat-list-item>
+
+   <!-- <app-assignment-detail *ngIf="assignementSelectionne" [assignementTransmis]="assignementSelectionne">
+   </app-assignment-detail> -->
+</main>
+
+<mat-paginator (page)="pageChange($event)" [showFirstLastButtons]="true" [pageIndex]="this.page" [length]="this.totalDocs" [pageSize]="this.limit" [pageSizeOptions]="[10,20,30]" aria-label="Select page">
+</mat-paginator>
