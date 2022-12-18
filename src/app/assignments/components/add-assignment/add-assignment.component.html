@@ -1,4 +1,4 @@
-<form class="form" ngForm #assignmentForm>
+<!-- <form class="form" ngForm #assignmentForm>
 
 
    <mat-form-field>
@@ -16,4 +16,9 @@
    <button mat-stroked-button color="primary" (click)="onSubmit()" > Ajouter un devoir </button>
 
 
-</form>
+</form> -->
+
+
+<h3>Ajout d'un assignment </h3>
+
+<app-assignement-form (onSubmit)="createAssignment($event)" [assignment]="this.newAssignment"></app-assignement-form>

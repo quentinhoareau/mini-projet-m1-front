@@ -1,0 +1,19 @@
+.enseignant-image {
+   background-size: cover;
+   width: 80px;
+   height: 80px;
+
+}
+
+.mat-card {
+   margin: unset;
+
+   img.mat-card-image {
+      max-width: 800px;
+      margin: auto;
+   }
+}
+
+.mat-checkbox {
+   float: right;
+}

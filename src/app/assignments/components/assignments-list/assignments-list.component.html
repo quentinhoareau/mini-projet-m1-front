@@ -1,40 +1,58 @@
-<h1>{{titre}}</h1>
 <h2>Liste des assignments :</h2>
 
 
-<main>
+<main *ngIf="dataSource">
+
+   <mat-form-field>
+      <mat-label>Filter</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #searchInput>
+   </mat-form-field>
 
 
-
-   <button mat-flat-button color="accent"> <a routerLink="/add"> Ajouter Assignment</a>
-   </button>
-
-   <mat-list-item (click)="assignmentClique(assignment)" *ngFor="let assignment of assignments" [ngClass]="{
-       'rendu':assignment.rendu,
-       'nonrendu':'2px solid blue'
-      }">
-
-      <nav>
-         <a routerLink="/assignement/{{assignment.id}}">
-            <p *ngIf="assignment.rendu; else nonsoumis">
-               {{assignment.nom}}, à rendre le {{assignment.dateDeRendu | date}},
-               soumis par l'élève : {{assignment.rendu}}.
-            </p>
+   <mat-slide-toggle [(ngModel)]="renduFilter" (click)="onRenduFilter()">
+      <container-element [ngSwitch]="renduFilter">
+         <span *ngSwitchCase="true">Rendu</span>
+         <span *ngSwitchCase="false">Non rendu</span>
+         <span *ngSwitchDefault>Tous les assignements</span>
+      </container-element>
 
 
-            <ng-template #nonsoumis>
-               <p>Le devoir {{assignment.nom}} n'a pas été rendu !</p>
-            </ng-template>
+   </mat-slide-toggle>
+
+   <button (click)="onRenduFilter(true); searchInput.value = ''" class="btn btn-primary">Réinitialiser les filtres</button>
+   <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
+
+      <ng-container matColumnDef="nom">
+         <th mat-header-cell *matHeaderCellDef mat-sort-header> Nom </th>
+         <td mat-cell *matCellDef="let element"> {{element?.nom}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="rendu">
+         <th mat-header-cell *matHeaderCellDef mat-sort-header> Rendu </th>
+         <td [ngClass]="{'rendu':element?.rendu, 'nonRendu': !element?.rendu}" mat-cell *matCellDef="let element">
+            {{element?.rendu?"Rendu":"Non Rendu"}} </td>
+      </ng-container>
 
 
-            <mat-divider></mat-divider>
-         </a>
-      </nav>
-   </mat-list-item>
+      <ng-container matColumnDef="dateDeRendu">
+         <th mat-header-cell *matHeaderCellDef> Date de rendu </th>
+         <td mat-cell *matCellDef="let element"> {{element?.rendu?(element?.dateDeRendu | date):"-"}} </td>
+      </ng-container>
 
-   <!-- <app-assignment-detail *ngIf="assignementSelectionne" [assignementTransmis]="assignementSelectionne">
-   </app-assignment-detail> -->
+      <ng-container matColumnDef="note">
+         <th mat-header-cell *matHeaderCellDef> Note </th>
+         <td mat-cell *matCellDef="let element"> {{element?.rendu?(element?.note)+"/20":"-"}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="openAssignmentDetail(row)"> </tr>
+
+   </table>
+
+
+   <mat-paginator (page)="pageChange($event)" [showFirstLastButtons]="true" [pageIndex]="this.page"
+      [length]="this.totalDocs" [pageSize]="this.limit" [pageSizeOptions]="[10,20,30]" aria-label="Select page">
+   </mat-paginator>
+
 </main>
-
-<mat-paginator (page)="pageChange($event)" [showFirstLastButtons]="true" [pageIndex]="this.page" [length]="this.totalDocs" [pageSize]="this.limit" [pageSizeOptions]="[10,20,30]" aria-label="Select page">
-</mat-paginator>

@@ -1,10 +1,7 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { FormsModule } from '@angular/forms';
 
 
 import { AddAssignmentComponent } from './assignments/components/add-assignment/add-assignment.component';
@@ -16,6 +13,15 @@ import { AssignmentDetailComponent } from './assignments/components/assignment-d
 import { SharedModule } from './shared/shared.module';
 import { AssignmentsModule } from './assignments/assignments.module';
 import { CoreModule } from './core/core.module';
+
+import { LOCALE_ID } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import * as fr from '@angular/common/locales/fr';
+
+
+
+
+
 
 
 const routes: Routes = [
@@ -29,7 +35,7 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     SharedModule,
@@ -37,7 +43,11 @@ const routes: Routes = [
     CoreModule,
     RouterModule.forRoot(routes),
   ],
-  providers: [{ provide: MatPaginatorIntl, useClass: MyCustomPaginatorIntl }],
+  providers: [{ provide: MatPaginatorIntl, useClass: MyCustomPaginatorIntl }, { provide: LOCALE_ID, useValue: "fr" }],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor() {
+    registerLocaleData(fr.default);
+  }
+}

@@ -1,0 +1,38 @@
+.rendu {
+  color: green;
+}
+
+.nonRendu {
+  color: red;
+}
+
+.important {
+  font-size: 40px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  margin: 5px;
+}
+
+a {
+  text-decoration: none;
+  color: unset;
+  cursor: pointer;
+}
+
+table {
+  width: 100%;
+
+
+     tr.mat-row {
+      cursor: pointer;
+    }
+
+    tr.mat-row:hover {
+      background-color: rgb(235, 235, 235);
+    }
+
+
+}

@@ -10,8 +10,6 @@ import { AssignementsService } from '../../../services/assignements.service';
 })
 export class EditAssignmentComponent implements OnInit {
   assignment!: Assignement | undefined;
-  nomAssignment!: string;
-  dateDeRendu!: Date;
 
   constructor(
     private assignmentsService: AssignementsService,
@@ -26,24 +24,19 @@ export class EditAssignmentComponent implements OnInit {
   getAssignment() {
     // on récupère l'id dans le snapshot passé par le routeur
     // le "+" force l'id de type string en "number"
-    const id = +this.route.snapshot.params['id'];
+    const id = this.route.snapshot.params['id'];
 
     this.assignmentsService.getAssignement(id).subscribe((assignment) => {
       if (!assignment) return;
       this.assignment = assignment;
-      // Pour pré-remplir le formulaire
-      this.nomAssignment = assignment.nom;
-      this.dateDeRendu = assignment.dateDeRendu;
     });
   }
-  onSaveAssignment() {
+  saveAssignment(assignement:Assignement) {
     if (!this.assignment) return;
 
-    // on récupère les valeurs dans le formulaire
-    this.assignment.nom = this.nomAssignment;
-    this.assignment.dateDeRendu = this.dateDeRendu;
+
     this.assignmentsService
-      .updateAssignement(this.assignment)
+      .updateAssignement(assignement)
       .subscribe(() => {
 
 

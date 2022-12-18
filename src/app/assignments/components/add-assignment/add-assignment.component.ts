@@ -1,6 +1,7 @@
 import { outputAst } from '@angular/compiler';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import { Matiere } from 'src/app/models/matiere.model';
 import { Assignement } from '../../../models/assignement.model';
 import { AssignementsService } from '../../../services/assignements.service';
 
@@ -14,20 +15,21 @@ export class AddAssignmentComponent implements OnInit {
   nomDevoir:string;
   dateRendu:Date;
 
-  constructor(private assignmentsService: AssignementsService, private router : Router) { }
+  newAssignment = new Assignement();
+
+  constructor(private assignmentsService: AssignementsService, private router : Router) { 
+    this.newAssignment.rendu = false;
+    this.newAssignment.dateDeRendu = this.dateRendu;
+
+  }
 
   ngOnInit(): void {
   }
 
-  onSubmit() {
-    const newAssignment = new Assignement();
-    newAssignment.id = Math.floor(Math.random()*1000);
-    newAssignment.dateDeRendu = this.dateRendu;
-    newAssignment.nom  = this.nomDevoir;
-    newAssignment.rendu = false;
-
-  
-    this.assignmentsService.addAssignement(newAssignment).subscribe((newAssignement: Assignement)=>{
+  createAssignment(assignement : Assignement) {
+    console.log(assignement);
+    
+    this.assignmentsService.addAssignement(assignement).subscribe((newAssignement: Assignement)=>{
       this.router.navigate(["home"]);
     });
   

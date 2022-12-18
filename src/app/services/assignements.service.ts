@@ -25,7 +25,7 @@ export class AssignementsService {
 
   }
 
-  getAssignement(id: number): Observable<Assignement | null> {
+  getAssignement(id: string): Observable<Assignement | null> {
 
 
     return this.http.get<Assignement>(`${this.url}/${id}`);
@@ -42,7 +42,7 @@ export class AssignementsService {
   }
 
   deleteAssignement(assignement: Assignement) {
-    return this.http.delete<Assignement>(`${this.url}/${assignement._id}`);
+    return this.http.delete(`${this.url}/${assignement._id}`);
   }
 
   peuplerBDAvecForkJoin() {
@@ -52,7 +52,6 @@ export class AssignementsService {
     bdInitialAssignments.forEach(a => {
       let nouvelAssignment = new Assignement();
       nouvelAssignment.nom = a.nom;
-      nouvelAssignment.id = a.id;
       nouvelAssignment.dateDeRendu = new Date(a.dateDeRendu);
       nouvelAssignment.rendu = a.rendu;
 

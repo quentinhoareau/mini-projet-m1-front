@@ -1,4 +1,4 @@
-
+<!-- 
 <div class="container">
    <mat-card *ngIf="assignementTransmis">
       <mat-card-title>{{assignementTransmis.nom}}
@@ -13,3 +13,47 @@
       </div>
    </mat-card>
 </div>
+ -->
+
+
+<mat-card *ngIf="assignementTransmis;else noAssignement" class="example-card">
+   <mat-card-header >
+      <div *ngIf="assignementTransmis.matiere" mat-card-avatar class="enseignant-image"
+         [style]='"background-image: url(\"./assets/images/enseignants/"+assignementTransmis.matiere._id+".jpg\")"'>
+      </div>
+      <mat-card-title>{{assignementTransmis.nom}} <ng-container *ngIf="assignementTransmis?.rendu">  </ng-container>
+
+      </mat-card-title>
+      <mat-card-subtitle *ngIf="assignementTransmis.matiere">
+         Matière : {{assignementTransmis.matiere.nom}} <br>
+         Eleve : {{assignementTransmis.eleve.nom}} {{assignementTransmis.eleve.prenom}} <br>
+         Enseignant : {{assignementTransmis.matiere.enseignant}}<br>
+         Date de rendu : {{assignementTransmis.dateDeRendu | date}}
+      
+      </mat-card-subtitle>
+   </mat-card-header>
+   <img *ngIf="assignementTransmis.matiere" mat-card-image src="./assets/images/matieres/{{assignementTransmis.matiere._id}}.jpg"
+      alt="Photo of a Shiba Inu">
+   <mat-card-content>
+      <b> Remarque : </b>
+      <p>
+         {{assignementTransmis.remarque ? assignementTransmis.remarque : "Aucune remarque"}}
+      </p>
+
+      <ng-container *ngIf="assignementTransmis.rendu">
+         <h3> Note : <span class="text-success"> {{assignementTransmis.note}}/20 </span> </h3>
+      </ng-container>
+
+   </mat-card-content>
+   <mat-card-actions>
+      <button mat-stroked-button (click)="onCkickEdit()"> Modifier </button>
+      <button mat-raised-button color="warn" class="btn btn-success" (click)="onDeleteAssignement(assignementTransmis)">
+         Supprimer </button>
+      <mat-checkbox *ngIf="!assignementTransmis.rendu" (click)="onAssignementRendu()"> Devoir rendu </mat-checkbox>
+
+   </mat-card-actions>
+</mat-card>
+
+<ng-template #noAssignement>
+   <h1 *ngIf="assignementTransmis === null">Assignement non trouvé, <a href="/">Retourner à l'accueil</a></h1>
+</ng-template>

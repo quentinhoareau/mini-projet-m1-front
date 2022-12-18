@@ -5,6 +5,7 @@ import { AssignmentsListComponent } from './components/assignments-list/assignme
 import { AddAssignmentComponent } from './components/add-assignment/add-assignment.component';
 import { EditAssignmentComponent } from './components/edit-assignment/edit-assignment.component';
 import { SharedModule } from '../shared/shared.module';
+import { AssignementFormComponent } from './components/assignement-form/assignement-form.component';
 
 
 
@@ -13,7 +14,8 @@ import { SharedModule } from '../shared/shared.module';
     AssignmentsListComponent,
     AssignmentDetailComponent,
     AddAssignmentComponent,
-    EditAssignmentComponent
+    EditAssignmentComponent,
+    AssignementFormComponent
   ],
   imports: [
     CommonModule,

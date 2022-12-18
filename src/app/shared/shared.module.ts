@@ -8,9 +8,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
-import { CoreModule } from '../core/core.module';
-import { AssignmentsModule } from '../assignments/assignments.module';
 import { RouterModule } from '@angular/router';
+import { MatTableModule } from '@angular/material/table';
 
 
 @NgModule({
@@ -25,7 +24,8 @@ import { RouterModule } from '@angular/router';
     HttpClientModule,
     FormsModule,
     NgbModule,
-    RouterModule
+    RouterModule,
+    MatTableModule
   ],
   exports: [
     MaterialModule,
@@ -38,7 +38,8 @@ import { RouterModule } from '@angular/router';
     HttpClientModule,
     FormsModule,
     NgbModule,
-    RouterModule
+    RouterModule,
+    MatTableModule
   ]
 })
 export class SharedModule { }
