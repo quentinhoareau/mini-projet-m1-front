@@ -17,6 +17,9 @@ import { CoreModule } from './core/core.module';
 import { LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import * as fr from '@angular/common/locales/fr';
+import { LoginComponent } from './assignments/components/login/login.component';
+import { httpInterceptorProviders } from './_helpers/http.interceptor';
+
 
 
 
@@ -29,7 +32,8 @@ const routes: Routes = [
   { path: 'home', component: AssignmentsListComponent },
   { path: 'add', component: AddAssignmentComponent },
   { path: 'assignement/:id', component: AssignmentDetailComponent },
-  { path: 'assignement/:id/edit', component: EditAssignmentComponent }
+  { path: 'assignement/:id/edit', component: EditAssignmentComponent },
+  { path: 'login', component: LoginComponent },
 ];
 
 
@@ -43,7 +47,7 @@ const routes: Routes = [
     CoreModule,
     RouterModule.forRoot(routes),
   ],
-  providers: [{ provide: MatPaginatorIntl, useClass: MyCustomPaginatorIntl }, { provide: LOCALE_ID, useValue: "fr" }],
+  providers: [{ provide: MatPaginatorIntl, useClass: MyCustomPaginatorIntl }, { provide: LOCALE_ID, useValue: "fr" }, httpInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule {

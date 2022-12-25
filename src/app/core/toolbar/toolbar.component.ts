@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { User } from 'src/app/models/user.model';
 import { AssignementsService } from 'src/app/services/assignements.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-toolbar',
@@ -9,19 +11,29 @@ import { AssignementsService } from 'src/app/services/assignements.service';
 })
 export class ToolbarComponent implements OnInit {
 
-  constructor(private assignmentService: AssignementsService, private router : Router) { }
+  user: User;
+
+  constructor(private assignmentService: AssignementsService, private router: Router, private authService: AuthService) { }
 
   ngOnInit(): void {
+    this.authService.getCurrentUser().subscribe((user) => {
+      this.user = user;
+    })
   }
 
-  peuplerBDD(){
+  peuplerBDD() {
     this.assignmentService.peuplerBDAvecForkJoin()
-    .subscribe(() => {
-      console.log("LA BD A ETE PEUPLEE, TOUS LES ASSIGNMENTS AJOUTES, ON RE-AFFICHE LA LISTE");
+      .subscribe(() => {
+        console.log("LA BD A ETE PEUPLEE, TOUS LES ASSIGNMENTS AJOUTES, ON RE-AFFICHE LA LISTE");
 
-      this.router.navigate(["/home"], {replaceUrl:true});
-    })
+        this.router.navigate(["/home"], { replaceUrl: true });
+      })
 
+  }
+
+  logout() {
+    this.authService.logout();
+    window.location.reload();
   }
 
 }

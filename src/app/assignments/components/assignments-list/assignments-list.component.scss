@@ -26,7 +26,7 @@ table {
   width: 100%;
 
 
-     tr.mat-row {
+     td {
       cursor: pointer;
     }
 
@@ -35,4 +35,8 @@ table {
     }
 
 
+}
+
+.cell-actions button {
+  font-size: 0.8rem;
 }

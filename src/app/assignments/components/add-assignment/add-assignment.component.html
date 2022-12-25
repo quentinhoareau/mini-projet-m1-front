@@ -1,24 +1,11 @@
-<!-- <form class="form" ngForm #assignmentForm>
-
-
-   <mat-form-field>
-      <input matInput #nomAssignment [(ngModel)]="nomDevoir" name="nom">
-   </mat-form-field>
-
-   <mat-form-field appearance="fill">
-      <mat-label>Choose a date</mat-label>
-      <input matInput [matDatepicker]="picker" [(ngModel)]="dateRendu" name="date">
-      <mat-hint>MM/DD/YYYY</mat-hint>
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-   </mat-form-field>
-
-   <button mat-stroked-button color="primary" (click)="onSubmit()" > Ajouter un devoir </button>
-
-
-</form> -->
-
-
 <h3>Ajout d'un assignment </h3>
 
-<app-assignement-form (onSubmit)="createAssignment($event)" [assignment]="this.newAssignment"></app-assignement-form>
+<ng-container *ngIf="user?.roles?.[0]?.name === 'USER' || user?.roles?.[0]?.name === 'ADMIN';else noUser">
+   <app-assignement-form (onSubmit)="createAssignment($event)" [assignment]="this.newAssignment"></app-assignement-form>
+</ng-container>
+
+<ng-template #noUser>
+   <div class="alert alert-danger" role="alert">
+      Vous n'avez pas l'accès à l'ajout d'un nouvel assignement.
+   </div>
+</ng-template>

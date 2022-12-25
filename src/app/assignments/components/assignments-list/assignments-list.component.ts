@@ -6,7 +6,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { Assignement } from 'src/app/models/assignement.model';
+import { User } from 'src/app/models/user.model';
 import { AssignementsService } from 'src/app/services/assignements.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 
 
@@ -45,7 +47,7 @@ export class MyCustomPaginatorIntl implements MatPaginatorIntl {
 export class AssignmentsListComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatSort) sort: MatSort;
-  renduFilter:boolean|undefined = undefined;
+  renduFilter: boolean | undefined = undefined;
 
   page: number = 1;
   limit: number = 10;
@@ -55,7 +57,7 @@ export class AssignmentsListComponent implements OnInit, AfterViewInit {
   prevPage: number;
   hasNextPage: boolean;
   nextPage: number;
-  displayedColumns: string[] = ['nom', 'rendu', 'dateDeRendu', 'note'];
+  displayedColumns: string[] = ['nom', 'rendu', 'dateDeRendu', 'note', 'actions'];
   dataSource = new MatTableDataSource<Assignement>();
 
 
@@ -63,8 +65,10 @@ export class AssignmentsListComponent implements OnInit, AfterViewInit {
 
   nomDevoir: string = "";
 
+  user:User;
 
-  constructor(private assignementsService: AssignementsService, private router: Router, private _liveAnnouncer: LiveAnnouncer) {
+
+  constructor(private assignementsService: AssignementsService, private router: Router, private _liveAnnouncer: LiveAnnouncer, private authService: AuthService) {
     this.dataSource.filterPredicate = (data: Assignement, filter: string) => {
 
       if (filter.includes("non") || filter.includes("pas") || filter == "non rendu") {
@@ -85,6 +89,23 @@ export class AssignmentsListComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.refreshPage();
+    this.authService.getCurrentUser().subscribe((user:User)=>{
+      this.user=user;
+    },
+    );
+    
+    
+  }
+
+  onDeleteAssignement(assignement: Assignement) {
+
+    if (assignement) {
+
+      this.assignementsService.deleteAssignement(assignement).subscribe((a) => {
+
+      })
+      this.router.navigate(["home"]);
+    }
 
   }
 
@@ -131,14 +152,14 @@ export class AssignmentsListComponent implements OnInit, AfterViewInit {
 
   onRenduFilter(reset: boolean = false) {
 
-    if(!reset){
-      this.dataSource.filter = (!this.renduFilter ? "rendu" : "non rendu" ).trim().toLowerCase();
-    }else{
+    if (!reset) {
+      this.dataSource.filter = (!this.renduFilter ? "rendu" : "non rendu").trim().toLowerCase();
+    } else {
       this.renduFilter = undefined;
       this.dataSource.filter = "";
     }
-    
-    
+
+
   }
 
 

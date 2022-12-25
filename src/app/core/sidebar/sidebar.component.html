@@ -1,11 +1,25 @@
 <ul class="sidebar">
    <a routerLink="/home">
-      <li> List des devoirs </li>
+      <li> List des devoirs <br>
+         <small>
+            <div class="alert alert-success" role="alert">
+               Vous avez les droits
+            </div>
+         </small>
+      </li>
    </a>
    <a routerLink="/add">
-      <li> Ajout d'un devoir</li>
-   </a>
-   <a routerLink="/home">
-      <li> Modification d'un devoir </li>
+      <li> Ajout d'un devoir
+
+         <small *ngIf="user?.roles?.[0]?.name === 'USER' || user?.roles?.[0]?.name === 'ADMIN'; else noRigths">Vous avez
+            les droits</small>
+         <ng-template #noRigths>
+            <small>
+               <div class="alert alert-danger" role="alert">
+                  Droit USER ou ADMIN requis
+               </div>
+            </small>
+         </ng-template>
+      </li>
    </a>
 </ul>

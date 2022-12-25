@@ -1,39 +1,20 @@
-<!-- <mat-toolbar>
-   <div>
-      <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
-         <mat-icon>menu</mat-icon>
-      </button>
-      <span> <a routerLink="/home"> My App Assignments </a></span>
-      <span class="example-spacer"></span>
-   </div>
-
-   <div>
-         <button mat-raised-button color="accent" (click)="peuplerBDD()"> PeuplerBDD </button> 
-    
-   </div>
-   
-
-</mat-toolbar>
-
-  -->
-
 <mat-toolbar color="primary" class="row">
    <div class="col">
       <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
          <mat-icon>menu</mat-icon>
       </button>
-      <span>Mini-projet Angular - HOAREAU Quentin</span>
+      <span class="project-title">Mini-projet Angular - HOAREAU Quentin</span>
    </div>
 
-   <div class="col-auto text-end">
-      <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
-         <mat-icon>favorite</mat-icon>
-      </button>
-      <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
-         <mat-icon>share</mat-icon>
-      </button>
+   <div class="col-auto text-end right-nav-content">
 
-      <button mat-raised-button color="accent" (click)="peuplerBDD()"> PeuplerBDD </button>
+      <div *ngIf="user" class="user-content"> Bonjour, {{user.username}} <small>({{user.roles[0].name}})</small> </div>
+      <button *ngIf="user; else loginButton;" mat-raised-button color="warn" (click)="logout()">Se déconnecter </button>
+
+      <ng-template #loginButton>
+         <button mat-raised-button color="basic"> <a routerLink="/login"> Se connecter </a></button>
+      </ng-template>
+
 
    </div>
 

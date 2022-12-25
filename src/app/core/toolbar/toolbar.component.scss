@@ -11,4 +11,20 @@
     align-items: center;
 
   }
+
+  
+}
+
+div.user-content{
+  display: contents;
+}
+
+.project-title, .user-content{
+  font-size: 1rem;
+  font-weight: 500;
+  margin-right: 1rem;
+}
+
+button{
+  margin-left: 1rem;
 }
