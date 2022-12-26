@@ -12,9 +12,7 @@ export class StorageService {
     window.sessionStorage.clear();
   }
 
-  public saveToken(token: any): void {
-    console.log(token);
-    
+  public saveToken(token: any): void {    
     window.sessionStorage.setItem("token", token);
  
   }
@@ -23,9 +21,7 @@ export class StorageService {
     window.sessionStorage.removeItem("token");
   }
 
-  public getToken(): any {
-    console.log(window.sessionStorage.getItem("token"));
-    
+  public getToken(): any {    
     return window.sessionStorage.getItem("token");
   }
 

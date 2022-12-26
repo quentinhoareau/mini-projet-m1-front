@@ -1,7 +1,7 @@
 import { Eleve } from "./eleve.model";
 import { Matiere } from "./matiere.model";
 
-export class Assignement{
+export class Assignment{
    _id:string;
    nom:string;
    dateDeRendu:Date;

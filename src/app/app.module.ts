@@ -31,8 +31,8 @@ const routes: Routes = [
   { path: '', component: AssignmentsListComponent },
   { path: 'home', component: AssignmentsListComponent },
   { path: 'add', component: AddAssignmentComponent },
-  { path: 'assignement/:id', component: AssignmentDetailComponent },
-  { path: 'assignement/:id/edit', component: EditAssignmentComponent },
+  { path: 'assignment/:id', component: AssignmentDetailComponent },
+  { path: 'assignment/:id/edit', component: EditAssignmentComponent },
   { path: 'login', component: LoginComponent },
 ];
 

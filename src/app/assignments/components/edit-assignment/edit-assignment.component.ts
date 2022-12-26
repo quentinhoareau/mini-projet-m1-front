@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Assignement } from '../../../models/assignement.model';
-import { AssignementsService } from '../../../services/assignements.service';
+import { User } from 'src/app/models/user.model';
+import { AuthService } from 'src/app/services/auth.service';
+import { Assignment } from '../../../models/assignment.model';
+import { AssignmentsService } from '../../../services/assignments.service';
 
 @Component({
   selector: 'app-edit-assignment',
@@ -9,16 +11,22 @@ import { AssignementsService } from '../../../services/assignements.service';
   styleUrls: ['./edit-assignment.component.css'],
 })
 export class EditAssignmentComponent implements OnInit {
-  assignment!: Assignement | undefined;
+  assignment!: Assignment | undefined;
+
+  user:User;
 
   constructor(
-    private assignmentsService: AssignementsService,
+    private assignmentsService: AssignmentsService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private authService :AuthService
   ) { }
 
   ngOnInit(): void {
     this.getAssignment();
+    this.authService.getCurrentUser().subscribe((user) => {
+      this.user = user;
+    });
   }
 
   getAssignment() {
@@ -26,22 +34,22 @@ export class EditAssignmentComponent implements OnInit {
     // le "+" force l'id de type string en "number"
     const id = this.route.snapshot.params['id'];
 
-    this.assignmentsService.getAssignement(id).subscribe((assignment) => {
+    this.assignmentsService.getAssignment(id).subscribe((assignment) => {
       if (!assignment) return;
       this.assignment = assignment;
     });
   }
-  saveAssignment(assignement:Assignement) {
+  saveAssignment(assignment:Assignment) {
     if (!this.assignment) return;
 
 
     this.assignmentsService
-      .updateAssignement(assignement)
+      .updateAssignment(assignment)
       .subscribe(() => {
 
 
-        // navigation vers la home page
-        this.router.navigate(['/home']);
+        // navigation vers le assignment modifié
+        this.router.navigate(['/assignment', assignment._id]);
       });
   }
 }

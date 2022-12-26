@@ -6,7 +6,7 @@ import { StorageService } from 'src/app/services/storage.service';
 @Component({ 
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
   form: any = {
@@ -21,9 +21,6 @@ export class LoginComponent implements OnInit {
 
   constructor(private authService: AuthService, private storageService: StorageService) { 
 
-
-    console.log(this.storageService);
-    
   }
 
   ngOnInit(): void {

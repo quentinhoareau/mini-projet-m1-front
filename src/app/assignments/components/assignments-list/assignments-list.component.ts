@@ -5,9 +5,9 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
-import { Assignement } from 'src/app/models/assignement.model';
+import { Assignment } from 'src/app/models/assignment.model';
 import { User } from 'src/app/models/user.model';
-import { AssignementsService } from 'src/app/services/assignements.service';
+import { AssignmentsService } from 'src/app/services/assignments.service';
 import { AuthService } from 'src/app/services/auth.service';
 
 
@@ -57,19 +57,19 @@ export class AssignmentsListComponent implements OnInit, AfterViewInit {
   prevPage: number;
   hasNextPage: boolean;
   nextPage: number;
-  displayedColumns: string[] = ['nom', 'rendu', 'dateDeRendu', 'note', 'actions'];
-  dataSource = new MatTableDataSource<Assignement>();
+  displayedColumns: string[] = ['nom', 'rendu', 'eleve', 'note', 'actions'];
+  dataSource = new MatTableDataSource<Assignment>();
 
 
-  assignementSelectionne: Assignement | undefined;
+  assignmentSelectionne: Assignment | undefined;
 
   nomDevoir: string = "";
 
   user:User;
 
 
-  constructor(private assignementsService: AssignementsService, private router: Router, private _liveAnnouncer: LiveAnnouncer, private authService: AuthService) {
-    this.dataSource.filterPredicate = (data: Assignement, filter: string) => {
+  constructor(private assignmentsService: AssignmentsService, private router: Router, private _liveAnnouncer: LiveAnnouncer, private authService: AuthService) {
+    this.dataSource.filterPredicate = (data: Assignment, filter: string) => {
 
       if (filter.includes("non") || filter.includes("pas") || filter == "non rendu") {
         return data.rendu === false;
@@ -97,11 +97,11 @@ export class AssignmentsListComponent implements OnInit, AfterViewInit {
     
   }
 
-  onDeleteAssignement(assignement: Assignement) {
+  onDeleteAssignment(assignment: Assignment) {
 
-    if (assignement) {
+    if (assignment) {
 
-      this.assignementsService.deleteAssignement(assignement).subscribe((a) => {
+      this.assignmentsService.deleteAssignment(assignment).subscribe((a) => {
 
       })
       this.router.navigate(["home"]);
@@ -109,18 +109,17 @@ export class AssignmentsListComponent implements OnInit, AfterViewInit {
 
   }
 
-  assignmentClique(assignment: Assignement) {
-    this.assignementSelectionne = assignment;
+  assignmentClique(assignment: Assignment) {
+    this.assignmentSelectionne = assignment;
   }
 
-  openAssignmentDetail(assignement: Assignement) {
-    console.log(assignement);
-    this.router.navigate(["/assignement/" + assignement._id])
+  openAssignmentDetail(assignment: Assignment) {
+    this.router.navigate(["/assignment/" + assignment._id])
   }
 
 
   refreshPage() {
-    this.assignementsService.getAssignmentsPagine(this.page, this.limit)
+    this.assignmentsService.getAssignmentsPagine(this.page, this.limit)
       .subscribe((data: any) => {
         this.dataSource.data = data.docs;
 
@@ -133,7 +132,6 @@ export class AssignmentsListComponent implements OnInit, AfterViewInit {
         this.prevPage = data.prevPage;
         this.hasNextPage = data.hasNextPage;
         this.nextPage = data.nextPage;
-        console.log("données reçues");
       });
   }
 

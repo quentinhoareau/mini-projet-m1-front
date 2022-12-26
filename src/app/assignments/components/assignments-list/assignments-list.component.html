@@ -3,23 +3,36 @@
 
 <main *ngIf="dataSource">
 
-   <mat-form-field>
-      <mat-label>Filter</mat-label>
-      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #searchInput>
-   </mat-form-field>
+   <div class="row" style="">
+
+      <div class="col" style="display: flex;align-items: center;">
+         <mat-form-field>
+            <mat-label>Filter</mat-label>
+            <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #searchInput>
+         </mat-form-field>
+      
+      
+         <mat-slide-toggle [(ngModel)]="renduFilter" (click)="onRenduFilter()">
+            <container-element [ngSwitch]="renduFilter">
+               <span *ngSwitchCase="true">Rendu</span>
+               <span *ngSwitchCase="false">Non rendu</span>
+               <span *ngSwitchDefault>Tous les assignments</span>
+            </container-element>
+      
+      
+         </mat-slide-toggle>
+
+      </div>
+
+      <div class="col" style="text-align:right">
+         <button (click)="onRenduFilter(true); searchInput.value = ''" class="btn btn-primary">Réinitialiser les filtres</button>
+
+      </div>
 
 
-   <mat-slide-toggle [(ngModel)]="renduFilter" (click)="onRenduFilter()">
-      <container-element [ngSwitch]="renduFilter">
-         <span *ngSwitchCase="true">Rendu</span>
-         <span *ngSwitchCase="false">Non rendu</span>
-         <span *ngSwitchDefault>Tous les assignements</span>
-      </container-element>
+   </div>
 
 
-   </mat-slide-toggle>
-
-   <button (click)="onRenduFilter(true); searchInput.value = ''" class="btn btn-primary">Réinitialiser les filtres</button>
    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
 
       <ng-container matColumnDef="nom">
@@ -30,26 +43,28 @@
       <ng-container matColumnDef="rendu">
          <th mat-header-cell *matHeaderCellDef mat-sort-header> Rendu </th>
          <td (click)="openAssignmentDetail(element)" [ngClass]="{'rendu':element?.rendu, 'nonRendu': !element?.rendu}" mat-cell *matCellDef="let element">
-            {{element?.rendu?"Rendu":"Non Rendu"}} </td>
+            {{element?.rendu?"Rendu le " :"Non Rendu"}} 
+         
+         </td>
       </ng-container>
 
 
-      <ng-container matColumnDef="dateDeRendu">
-         <th mat-header-cell *matHeaderCellDef mat-sort-header> Date de rendu </th>
-         <td (click)="openAssignmentDetail(element)" mat-cell *matCellDef="let element"> {{element?.rendu?(element?.dateDeRendu | date):"-"}} </td>
+      <ng-container matColumnDef="eleve">
+         <th mat-header-cell *matHeaderCellDef mat-sort-header> Eleve </th>
+         <td (click)="openAssignmentDetail(element)" mat-cell *matCellDef="let element"> {{element.eleve.name}} </td>
       </ng-container>
 
       <ng-container matColumnDef="note">
          <th mat-header-cell *matHeaderCellDef mat-sort-header> Note </th>
-         <td (click)="openAssignmentDetail(element)" mat-cell *matCellDef="let element"> {{element?.rendu?(element?.note)+"/20":"-"}} </td>
+         <td (click)="openAssignmentDetail(element)" mat-cell *matCellDef="let element"> {{ ( element?.rendu && element?.note ) ? (element?.note)+"/20":"-"}} </td>
       </ng-container>
 
       <ng-container matColumnDef="actions">
          <th mat-header-cell *matHeaderCellDef > Actions </th>
          <td mat-cell *matCellDef="let element" class="cell-actions">
             
-            <ng-container *ngIf="user; else blockDetailsLink">
-               <button (click)="onDeleteAssignement(element)" class="btn btn-danger">Supprimer</button>
+            <ng-container *ngIf="user?.roles?.[0]?.name === 'ADMIN'; else blockDetailsLink">
+               <button (click)="onDeleteAssignment(element)" class="btn btn-danger">Supprimer</button>
             </ng-container>
 
             <ng-template #blockDetailsLink>
@@ -66,7 +81,7 @@
 
 
    <mat-paginator (page)="pageChange($event)" [showFirstLastButtons]="true" [pageIndex]="this.page"
-      [length]="this.totalDocs" [pageSize]="this.limit" [pageSizeOptions]="[10,20,30]" aria-label="Select page">
+      [length]="this.totalDocs" [pageSizeOptions]="[15,20,30]" aria-label="Select page">
    </mat-paginator>
 
 </main>

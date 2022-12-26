@@ -1,23 +1,14 @@
-<!-- <div class="container" *ngIf="assignment">
-   <h1>Edition de l'assignment {{assignment.nom}}</h1>
-   <form ngForm class="form" #formupdate (submit)="onSaveAssignment(); formupdate.reset(); ">
-      <mat-form-field>
-         <input matInput placeholder="Edition du nom" [(ngModel)]="nomAssignment" name="assignment-name">
-      </mat-form-field>
-      <mat-form-field>
-         <input matInput [matDatepicker]="picker" placeholder="Edition de la date" [(ngModel)]="dateDeRendu"
-            name="date">
-         <mat-datepicker-toggle matSuffix [for]="picker">
-         </mat-datepicker-toggle>
-         <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
-      <button mat-raised-button color="primary" [disabled]="((!nomAssignment)||(!dateDeRendu))">
-         Sauver
-      </button>
-   </form>
-</div>
+<h3>Modification d'un assignment </h3>
 
- -->
- <h3>Modification d'un assignment </h3>
 
- <app-assignement-form (onSubmit)="saveAssignment($event)" *ngIf="assignment" [assignment]="assignment"></app-assignement-form>
+<ng-container *ngIf="user?.roles?.[0]?.name === 'USER' || user?.roles?.[0]?.name === 'ADMIN';else noAccess">
+   <app-assignment-form (onSubmit)="saveAssignment($event)" *ngIf="assignment"
+      [assignment]="assignment"></app-assignment-form>
+</ng-container>
+
+
+<ng-template #noAccess>
+   <div class="alert alert-danger" role="alert">
+      Vous n'avez pas l'accès à la modification d'un nouvel assignment.
+   </div>
+</ng-template>

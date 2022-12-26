@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Assignement } from 'src/app/models/assignement.model';
+import { Assignment } from 'src/app/models/assignment.model';
 import { Eleve } from 'src/app/models/eleve.model';
 import { ElevesService } from 'src/app/services/eleves.service';
 import { Observable } from 'rxjs';
@@ -9,14 +9,14 @@ import { MatieresService } from 'src/app/services/matieres.service';
 import { Matiere } from 'src/app/models/matiere.model';
 
 @Component({
-  selector: 'app-assignement-form',
-  templateUrl: './assignement-form.component.html',
-  styleUrls: ['./assignement-form.component.scss']
+  selector: 'app-assignment-form',
+  templateUrl: './assignment-form.component.html',
+  styleUrls: ['./assignment-form.component.scss']
 })
-export class AssignementFormComponent implements OnInit {
+export class AssignmentFormComponent implements OnInit {
 
-  @Input() assignment: Assignement;
-  @Output() onSubmit = new EventEmitter<Assignement>();
+  @Input() assignment: Assignment;
+  @Output() onSubmit = new EventEmitter<Assignment>();
 
   eleves: Eleve[] = [];
   matieres: Matiere[] = [];

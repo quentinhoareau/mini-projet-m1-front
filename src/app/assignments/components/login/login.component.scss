@@ -35,3 +35,12 @@ label {
   text-align: center;
   margin-top: 30px;
 }
+
+table.login-info{
+  th,td{
+    padding: 5px;
+    border: solid 1px;
+  }
+
+  margin: auto;
+}

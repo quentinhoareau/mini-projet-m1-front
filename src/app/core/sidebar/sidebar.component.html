@@ -11,8 +11,11 @@
    <a routerLink="/add">
       <li> Ajout d'un devoir
 
-         <small *ngIf="user?.roles?.[0]?.name === 'USER' || user?.roles?.[0]?.name === 'ADMIN'; else noRigths">Vous avez
-            les droits</small>
+            <small *ngIf="user?.roles?.[0]?.name === 'USER' || user?.roles?.[0]?.name === 'ADMIN'; else noRigths">
+               <div class="alert alert-success" role="alert">
+                  Vous avez les droits
+               </div>
+            </small>
          <ng-template #noRigths>
             <small>
                <div class="alert alert-danger" role="alert">

@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
-import { Assignement } from '../../../models/assignement.model';
-import { AssignementsService } from '../../../services/assignements.service';
+import { Assignment } from '../../../models/assignment.model';
+import { AssignmentsService } from '../../../services/assignments.service';
 
 @Component({
   selector: 'app-add-assignment',
@@ -17,9 +17,9 @@ export class AddAssignmentComponent implements OnInit {
   user:User;
 
 
-  newAssignment = new Assignement();
+  newAssignment = new Assignment();
 
-  constructor(private assignmentsService: AssignementsService, private router : Router, private authService: AuthService) { 
+  constructor(private assignmentsService: AssignmentsService, private router : Router, private authService: AuthService) { 
     this.newAssignment.rendu = false;
     this.newAssignment.dateDeRendu = this.dateRendu;
     
@@ -32,10 +32,8 @@ export class AddAssignmentComponent implements OnInit {
     
   }
 
-  createAssignment(assignement : Assignement) {
-    console.log(assignement);
-    
-    this.assignmentsService.addAssignement(assignement).subscribe((newAssignement: Assignement)=>{
+  createAssignment(assignment : Assignment) {
+    this.assignmentsService.addAssignment(assignment).subscribe((newAssignment: Assignment)=>{
       this.router.navigate(["home"]);
     });
   

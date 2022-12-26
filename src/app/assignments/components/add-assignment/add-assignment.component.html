@@ -1,11 +1,12 @@
 <h3>Ajout d'un assignment </h3>
 
-<ng-container *ngIf="user?.roles?.[0]?.name === 'USER' || user?.roles?.[0]?.name === 'ADMIN';else noUser">
-   <app-assignement-form (onSubmit)="createAssignment($event)" [assignment]="this.newAssignment"></app-assignement-form>
+
+<ng-container *ngIf="user?.roles?.[0]?.name === 'USER' || user?.roles?.[0]?.name === 'ADMIN';else noAccess">
+   <app-assignment-form (onSubmit)="createAssignment($event)" [assignment]="this.newAssignment"></app-assignment-form>
 </ng-container>
 
-<ng-template #noUser>
+<ng-template #noAccess>
    <div class="alert alert-danger" role="alert">
-      Vous n'avez pas l'accès à l'ajout d'un nouvel assignement.
+      Vous n'avez pas l'accès à l'ajout d'un nouvel assignment.
    </div>
 </ng-template>

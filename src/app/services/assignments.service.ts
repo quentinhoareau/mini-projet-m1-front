@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { forkJoin, Observable, of } from "rxjs"
 import { HttpClient } from '@angular/common/http';
-import { Assignement } from '../models/assignement.model';
+import { Assignment } from '../models/assignment.model';
 import { LoggingService } from './logging.service';
 import { bdInitialAssignments } from './data';
 
@@ -9,7 +9,7 @@ import { bdInitialAssignments } from './data';
 @Injectable({
   providedIn: 'root'
 })
-export class AssignementsService {
+export class AssignmentsService {
 
   url = "http://localhost:8010/api/assignments"
 
@@ -18,31 +18,31 @@ export class AssignementsService {
 
   }
 
-  getAssignements(): Observable<Assignement[]> {
+  getAssignments(): Observable<Assignment[]> {
 
 
-    return this.http.get<Assignement[]>(this.url);
-
-  }
-
-  getAssignement(id: string): Observable<Assignement | null> {
-
-
-    return this.http.get<Assignement>(`${this.url}/${id}`);
+    return this.http.get<Assignment[]>(this.url);
 
   }
 
-  addAssignement(assignement: Assignement) {
-    return this.http.post<Assignement>(this.url, assignement);
+  getAssignment(id: string): Observable<Assignment | null> {
+
+
+    return this.http.get<Assignment>(`${this.url}/${id}`);
+
   }
 
-  updateAssignement(assignement: Assignement) {
-
-    return this.http.put<Assignement>(this.url, assignement);
+  addAssignment(assignment: Assignment) {
+    return this.http.post<Assignment>(this.url, assignment);
   }
 
-  deleteAssignement(assignement: Assignement) {
-    return this.http.delete(`${this.url}/${assignement._id}`);
+  updateAssignment(assignment: Assignment) {
+
+    return this.http.put<Assignment>(this.url, assignment);
+  }
+
+  deleteAssignment(assignment: Assignment) {
+    return this.http.delete(`${this.url}/${assignment._id}`);
   }
 
   peuplerBDAvecForkJoin() {
@@ -50,14 +50,14 @@ export class AssignementsService {
 
 
     bdInitialAssignments.forEach(a => {
-      let nouvelAssignment = new Assignement();
+      let nouvelAssignment = new Assignment();
       nouvelAssignment.nom = a.nom;
       nouvelAssignment.dateDeRendu = new Date(a.dateDeRendu);
       nouvelAssignment.rendu = a.rendu;
 
 
 
-      appelsVersAddAssignment.push(this.addAssignement(nouvelAssignment));
+      appelsVersAddAssignment.push(this.addAssignment(nouvelAssignment));
 
     });
 
@@ -67,7 +67,7 @@ export class AssignementsService {
   }
 
   getAssignmentsPagine(page: number, limit: number) {
-    return this.http.get<Assignement[]>(`${this.url}?page=${page}&limit=${limit}`);
+    return this.http.get<Assignment[]>(`${this.url}?page=${page}&limit=${limit}`);
   }
 
 }

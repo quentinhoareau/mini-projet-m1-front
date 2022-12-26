@@ -1,7 +1,9 @@
 import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Assignement } from 'src/app/models/assignement.model';
-import { AssignementsService } from 'src/app/services/assignements.service';
+import { Assignment } from 'src/app/models/assignment.model';
+import { User } from 'src/app/models/user.model';
+import { AssignmentsService } from 'src/app/services/assignments.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-assignment-detail',
@@ -10,32 +12,37 @@ import { AssignementsService } from 'src/app/services/assignements.service';
 })
 export class AssignmentDetailComponent implements OnInit {
 
-  assignementTransmis: Assignement | null | undefined = undefined;
-  constructor(private assignementsService: AssignementsService, private route: ActivatedRoute, private router: Router) { }
+  assignmentTransmis: Assignment | null | undefined = undefined;
+  constructor(private assignmentsService: AssignmentsService, private route: ActivatedRoute, private router: Router, private authService : AuthService) { }
+  user:User;
 
   ngOnInit(): void {
 
-    this.getAssignement();
+    this.getAssignment();
+
+    this.authService.getCurrentUser().subscribe((user) => {
+      this.user = user;
+    })
   }
-  getAssignement() {
+  getAssignment() {
     const id = this.route.snapshot.params["id"];
 
-    this.assignementsService.getAssignement(id)?.subscribe(assignement => {
+    this.assignmentsService.getAssignment(id)?.subscribe(assignment => {
 
-      this.assignementTransmis = assignement;
+      this.assignmentTransmis = assignment;
 
     },
       (error) => {
-        this.assignementTransmis = null;
+        this.assignmentTransmis = null;
       }
     )
   }
 
-  onDeleteAssignement(assignement: Assignement) {
+  onDeleteAssignment(assignment: Assignment) {
     
-    if (this.assignementTransmis) {
+    if (this.assignmentTransmis) {
     
-      this.assignementsService.deleteAssignement(this.assignementTransmis).subscribe((a) => {
+      this.assignmentsService.deleteAssignment(this.assignmentTransmis).subscribe((a) => {
     
       })
        this.router.navigate(["home"]);
@@ -43,12 +50,12 @@ export class AssignmentDetailComponent implements OnInit {
 
   }
 
-  onAssignementRendu() {
+  onAssignmentRendu() {
 
-    if (this.assignementTransmis) {
-      this.assignementTransmis.dateDeRendu = new Date();
-      this.assignementTransmis.rendu = true;
-      this.assignementsService.updateAssignement(this.assignementTransmis).subscribe((a) => {
+    if (this.assignmentTransmis) {
+      this.assignmentTransmis.dateDeRendu = new Date();
+      this.assignmentTransmis.rendu = true;
+      this.assignmentsService.updateAssignment(this.assignmentTransmis).subscribe((a) => {
         this.router.navigate(["home"]);
       })
 
@@ -57,8 +64,8 @@ export class AssignmentDetailComponent implements OnInit {
 
   }
   onCkickEdit() {
-    this.router.navigate(['/assignement', this.assignementTransmis?._id, 'edit'],
-      { queryParams: { nom: this.assignementTransmis?.nom }, fragment: 'edition' })
+    this.router.navigate(['/assignment', this.assignmentTransmis?._id, 'edit'],
+      { queryParams: { nom: this.assignmentTransmis?.nom }, fragment: 'edition' })
   }
 
 }
