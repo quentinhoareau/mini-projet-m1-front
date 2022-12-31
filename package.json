@@ -1,6 +1,8 @@
 {
-  "name": "assignment-app",
-  "version": "0.0.0",
+  "name": "mini-projet-m1-front",
+  "author": "quentin hoareau",
+  "license": "ISC",
+  "version": "1.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
