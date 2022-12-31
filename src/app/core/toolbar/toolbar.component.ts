@@ -21,14 +21,6 @@ export class ToolbarComponent implements OnInit {
     })
   }
 
-  peuplerBDD() {
-    this.assignmentService.peuplerBDAvecForkJoin()
-      .subscribe(() => {
-
-        this.router.navigate(["/home"], { replaceUrl: true });
-      })
-
-  }
 
   logout() {
     this.authService.logout();

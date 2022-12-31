@@ -1,4 +1,5 @@
 import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Assignment } from 'src/app/models/assignment.model';
 import { User } from 'src/app/models/user.model';
@@ -13,7 +14,7 @@ import { AuthService } from 'src/app/services/auth.service';
 export class AssignmentDetailComponent implements OnInit {
 
   assignmentTransmis: Assignment | null | undefined = undefined;
-  constructor(private assignmentsService: AssignmentsService, private route: ActivatedRoute, private router: Router, private authService : AuthService) { }
+  constructor(private assignmentsService: AssignmentsService, private _snackBar: MatSnackBar,  private route: ActivatedRoute, private router: Router, private authService : AuthService) { }
   user:User;
 
   ngOnInit(): void {
@@ -43,11 +44,14 @@ export class AssignmentDetailComponent implements OnInit {
     if (this.assignmentTransmis) {
     
       this.assignmentsService.deleteAssignment(this.assignmentTransmis).subscribe((a) => {
-    
+        this._snackBar.open("L'assignment à bien été supprimé.","Ok", {
+          duration:  3 * 1000,
+        });
+        this.router.navigate(["home"]);
       })
-       this.router.navigate(["home"]);
     }
 
+    
   }
 
   onAssignmentRendu() {
@@ -56,6 +60,9 @@ export class AssignmentDetailComponent implements OnInit {
       this.assignmentTransmis.dateDeRendu = new Date();
       this.assignmentTransmis.rendu = true;
       this.assignmentsService.updateAssignment(this.assignmentTransmis).subscribe((a) => {
+        this._snackBar.open("L'assignment à bien été rendu","Ok", {
+          duration:  3 * 1000,
+        });
         this.router.navigate(["home"]);
       })
 

@@ -11,7 +11,13 @@
     align-items: center;
 
   }
-
+  a{
+    color: aliceblue;
+  }
+  a.login-button{
+    text-decoration: none;
+    color: #000;
+  }
   
 }
 

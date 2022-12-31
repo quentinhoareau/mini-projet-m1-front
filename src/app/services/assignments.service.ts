@@ -42,28 +42,8 @@ export class AssignmentsService {
   }
 
   deleteAssignment(assignment: Assignment) {
+    
     return this.http.delete(`${this.url}/${assignment._id}`);
-  }
-
-  peuplerBDAvecForkJoin() {
-    const appelsVersAddAssignment: any = [];
-
-
-    bdInitialAssignments.forEach(a => {
-      let nouvelAssignment = new Assignment();
-      nouvelAssignment.nom = a.nom;
-      nouvelAssignment.dateDeRendu = new Date(a.dateDeRendu);
-      nouvelAssignment.rendu = a.rendu;
-
-
-
-      appelsVersAddAssignment.push(this.addAssignment(nouvelAssignment));
-
-    });
-
-    return forkJoin(appelsVersAddAssignment); // renvoie un seul Observable 
-
-
   }
 
   getAssignmentsPagine(page: number, limit: number) {

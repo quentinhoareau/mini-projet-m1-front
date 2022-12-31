@@ -17,6 +17,7 @@ export class AssignmentFormComponent implements OnInit {
 
   @Input() assignment: Assignment;
   @Output() onSubmit = new EventEmitter<Assignment>();
+  currentDate:Date = new Date();
 
   eleves: Eleve[] = [];
   matieres: Matiere[] = [];
@@ -65,9 +66,6 @@ export class AssignmentFormComponent implements OnInit {
     })
 
     this.eleveControl.setValue(this.assignment.eleve);
-
-
-
 
   }
 

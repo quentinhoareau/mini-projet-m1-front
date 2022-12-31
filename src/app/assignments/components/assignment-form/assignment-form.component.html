@@ -11,36 +11,46 @@
    </mat-select>
 </mat-form-field>
 
-
 <mat-form-field class="mat-date" appearance="fill">
-   <mat-label>Date de rendu</mat-label>
-   <input matInput [disabled]="!assignment.rendu" [matDatepicker]="picker"  [(ngModel)]="assignment.dateDeRendu" >
-   <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-   <mat-datepicker #picker></mat-datepicker>
- </mat-form-field>
+   <div style="display: flex;">
+      <mat-label style="display: grid; align-items: center;">Date de rendu</mat-label>
+      <input matInput [disabled]="!assignment.rendu" [matDatepicker]="picker" [(ngModel)]="assignment.dateDeRendu">
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+   </div>
+
+   <div *ngIf="!assignment.rendu" class="alert alert-warning" role="alert">
+      Le devoir doit être rendu pour établir une date de rendue.
+   </div>
+</mat-form-field>
 
 <mat-form-field appearance="fill" *ngIf="assignment?.matiere?._id">
    <mat-label>Matière concernée</mat-label>
    <mat-select [(value)]="assignment.matiere._id">
-      <mat-option [value]="mat._id" *ngFor="let mat of matieres" value="one">{{mat.nom}} ({{mat.enseignant}}) </mat-option>
+      <mat-option [value]="mat._id" *ngFor="let mat of matieres" value="one"> {{mat.nom}} ({{mat.enseignant}})
+      </mat-option>
    </mat-select>
 </mat-form-field>
 
-   <form class="example-form">
-      <mat-form-field class="example-full-width" appearance="fill">
-        <mat-label>Eleve concerné</mat-label>
-        <input type="text" matInput [formControl]="eleveControl" [matAutocomplete]="auto">
-        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-          <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+<form class="example-form">
+   <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Eleve concerné</mat-label>
+      <input type="text" matInput [formControl]="eleveControl" [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+         <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
             {{option.nom | uppercase}} {{option.prenom}}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
-    </form>
+         </mat-option>
+      </mat-autocomplete>
+   </mat-form-field>
+</form>
 
 <mat-form-field appearance="fill">
    <mat-label>Note</mat-label>
-   <input [max]="20" matInput [(ngModel)]="assignment.note">
+   <input type="number" [disabled]="!assignment.rendu" [max]="20" matInput [(ngModel)]="assignment.note">
+   <div *ngIf="!assignment.rendu" class="alert alert-warning" role="alert">
+      Le devoir doit être rendu pour établir une note.
+   </div>
+
 </mat-form-field>
 
 <mat-form-field appearance="fill">

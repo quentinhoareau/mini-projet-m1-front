@@ -1,8 +1,11 @@
 <mat-toolbar color="primary" class="row">
    <div class="col">
+      <a [routerLink]="'/home'">
       <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
-         <mat-icon>menu</mat-icon>
+         <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="home"></mat-icon>
+
       </button>
+   </a>
       <span class="project-title">Mini-projet Angular - HOAREAU Quentin</span>
    </div>
 
@@ -12,7 +15,7 @@
       <button *ngIf="user; else loginButton;" mat-raised-button color="warn" (click)="logout()">Se déconnecter </button>
 
       <ng-template #loginButton>
-         <button mat-raised-button color="basic"> <a routerLink="/login"> Se connecter </a></button>
+         <button mat-raised-button color="basic"> <a class="login-button" routerLink="/login"> Se connecter </a></button>
       </ng-template>
 
 

@@ -9,4 +9,10 @@ h3 {
   }
 }
 
+::ng-deep .mat-date{
+  mat-label{
+    min-width: 150px;
+  }
+}
+
 

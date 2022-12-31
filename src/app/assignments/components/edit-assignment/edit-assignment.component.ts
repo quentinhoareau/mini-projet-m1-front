@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
@@ -13,13 +14,14 @@ import { AssignmentsService } from '../../../services/assignments.service';
 export class EditAssignmentComponent implements OnInit {
   assignment!: Assignment | undefined;
 
-  user:User;
+  user: User;
 
   constructor(
     private assignmentsService: AssignmentsService,
     private route: ActivatedRoute,
     private router: Router,
-    private authService :AuthService
+    private authService: AuthService,
+    private _snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -39,14 +41,16 @@ export class EditAssignmentComponent implements OnInit {
       this.assignment = assignment;
     });
   }
-  saveAssignment(assignment:Assignment) {
+  saveAssignment(assignment: Assignment) {
     if (!this.assignment) return;
 
 
     this.assignmentsService
       .updateAssignment(assignment)
       .subscribe(() => {
-
+        this._snackBar.open("L'assignment à bien été modifié.", "Ok", {
+          duration: 3 * 1000,
+        });
 
         // navigation vers le assignment modifié
         this.router.navigate(['/assignment', assignment._id]);

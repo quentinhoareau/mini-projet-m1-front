@@ -1,6 +1,7 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { AfterViewInit, Component, Injectable, OnInit, ViewChild } from '@angular/core';
-import { MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
@@ -33,7 +34,7 @@ export class MyCustomPaginatorIntl implements MatPaginatorIntl {
       return $localize`Page 1 à 1`;
     }
     const amountPages = Math.ceil(length / pageSize);
-    return $localize`Page ${page} à ${amountPages - 1}`;
+    return $localize`Page ${page + 1} à ${amountPages} (${length} assignments)`;
   }
 }
 
@@ -47,6 +48,7 @@ export class MyCustomPaginatorIntl implements MatPaginatorIntl {
 export class AssignmentsListComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   renduFilter: boolean | undefined = undefined;
 
   page: number = 1;
@@ -57,7 +59,7 @@ export class AssignmentsListComponent implements OnInit, AfterViewInit {
   prevPage: number;
   hasNextPage: boolean;
   nextPage: number;
-  displayedColumns: string[] = ['nom', 'rendu', 'eleve', 'note', 'actions'];
+  displayedColumns: string[] = ['nom', 'rendu', 'dateDeRendu', 'note', 'actions'];
   dataSource = new MatTableDataSource<Assignment>();
 
 
@@ -65,15 +67,17 @@ export class AssignmentsListComponent implements OnInit, AfterViewInit {
 
   nomDevoir: string = "";
 
-  user:User;
+  user: User;
 
 
-  constructor(private assignmentsService: AssignmentsService, private router: Router, private _liveAnnouncer: LiveAnnouncer, private authService: AuthService) {
+  constructor(private assignmentsService: AssignmentsService, private router: Router, private _snackBar: MatSnackBar, private _liveAnnouncer: LiveAnnouncer, private authService: AuthService) {
+
     this.dataSource.filterPredicate = (data: Assignment, filter: string) => {
 
       if (filter.includes("non") || filter.includes("pas") || filter == "non rendu") {
         return data.rendu === false;
       }
+
 
       else if (filter.includes("rendu")) {
         return data.rendu === true;
@@ -88,23 +92,29 @@ export class AssignmentsListComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.refreshPage();
-    this.authService.getCurrentUser().subscribe((user:User)=>{
-      this.user=user;
+
+    this.refreshData();
+    this.authService.getCurrentUser().subscribe((user: User) => {
+      this.user = user;
     },
     );
-    
-    
+
+
   }
 
-  onDeleteAssignment(assignment: Assignment) {
+  deleteAssignment(assignment: Assignment) {
 
     if (assignment) {
-
       this.assignmentsService.deleteAssignment(assignment).subscribe((a) => {
 
+        this._snackBar.open("L'assignment à bien été supprimé.", "Ok", {
+          duration: 3 * 1000,
+        });
+
+        this.refreshData();
       })
-      this.router.navigate(["home"]);
+
+
     }
 
   }
@@ -118,11 +128,10 @@ export class AssignmentsListComponent implements OnInit, AfterViewInit {
   }
 
 
-  refreshPage() {
+  refreshData() {
     this.assignmentsService.getAssignmentsPagine(this.page, this.limit)
       .subscribe((data: any) => {
         this.dataSource.data = data.docs;
-
 
         this.page = data.page;
         this.limit = data.limit;
@@ -155,6 +164,9 @@ export class AssignmentsListComponent implements OnInit, AfterViewInit {
     } else {
       this.renduFilter = undefined;
       this.dataSource.filter = "";
+      this._snackBar.open("Les filtres ont été réinitialisés.", "Ok", {
+        duration: 3 * 1000,
+      });
     }
 
 
@@ -168,10 +180,10 @@ export class AssignmentsListComponent implements OnInit, AfterViewInit {
   }
 
   pageChange(event: PageEvent) {
-    this.page = event.pageIndex;
+    this.page = event.pageIndex + 1;
     this.limit = event.pageSize;
 
-    this.refreshPage();
+    this.refreshData();
   }
 
 
