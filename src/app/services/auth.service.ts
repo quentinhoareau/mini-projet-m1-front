@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { User } from '../models/user.model';
 import { StorageService } from './storage.service';
 
-const AUTH_API = 'http://localhost:8010/api/auth/';
+const AUTH_API = 'https://mini-projet-back-quentin-hoareau-m1.onrender.com/api/auth/';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })

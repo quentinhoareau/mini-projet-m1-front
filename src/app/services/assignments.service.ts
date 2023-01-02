@@ -11,7 +11,7 @@ import { bdInitialAssignments } from './data';
 })
 export class AssignmentsService {
 
-  url = "http://localhost:8010/api/assignments"
+  url = "https://mini-projet-back-quentin-hoareau-m1.onrender.com/api/assignments"
 
 
   constructor(private loggingService: LoggingService, private http: HttpClient) {

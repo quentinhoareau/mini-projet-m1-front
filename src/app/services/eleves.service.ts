@@ -9,7 +9,7 @@ import { LoggingService } from './logging.service';
   providedIn: 'root'
 })
 export class ElevesService {
-  url = "http://localhost:8010/api/eleves"
+  url = "https://mini-projet-back-quentin-hoareau-m1.onrender.com/api/eleves"
 
   constructor(private loggingService: LoggingService, private http: HttpClient) {
   }
