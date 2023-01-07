@@ -19,6 +19,7 @@ import { registerLocaleData } from '@angular/common';
 import * as fr from '@angular/common/locales/fr';
 import { LoginComponent } from './assignments/components/login/login.component';
 import { httpInterceptorProviders } from './_helpers/http.interceptor';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 
 
@@ -45,9 +46,9 @@ const routes: Routes = [
     SharedModule,
     AssignmentsModule,
     CoreModule,
-    RouterModule.forRoot(routes),
+    RouterModule.forRoot(routes, { useHash: true }),
   ],
-  providers: [{ provide: MatPaginatorIntl, useClass: MyCustomPaginatorIntl }, { provide: LOCALE_ID, useValue: "fr" }, httpInterceptorProviders],
+  providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}, { provide: MatPaginatorIntl, useClass: MyCustomPaginatorIntl }, { provide: LOCALE_ID, useValue: "fr" }, httpInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule {
