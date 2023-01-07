@@ -10,3 +10,6 @@ Pour récupérer la partie API du projet dirigez vous ici :
 
 # Contributions 
 Le projet à été fait seul par HOAREAU Quentin (front et back).
+
+# Détail du travail attendu
+Tous les attentes ont été implémentées sur le projet, également les options AVANCEES et AVANCE++.
