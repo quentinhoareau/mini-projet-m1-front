@@ -48,7 +48,7 @@ const routes: Routes = [
     CoreModule,
     RouterModule.forRoot(routes, { useHash: true }),
   ],
-  providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}, { provide: MatPaginatorIntl, useClass: MyCustomPaginatorIntl }, { provide: LOCALE_ID, useValue: "fr" }, httpInterceptorProviders],
+  providers: [{ provide: MatPaginatorIntl, useClass: MyCustomPaginatorIntl }, { provide: LOCALE_ID, useValue: "fr" }, httpInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule {
