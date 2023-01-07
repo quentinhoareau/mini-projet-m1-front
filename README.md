@@ -6,4 +6,4 @@
    - Votre application Angular est démarrée ! Dirigez vous vers http://localhost:4200/ !
 
 Pour récupérer  la partie API du projet dirigez vous ici : 
-[Mini Projet M1 API](https://github.com/quentinhoareau)
+[Mini Projet M1 API](https://github.com/quentinhoareau/mini-projet-m1-back)
