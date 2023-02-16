@@ -20,6 +20,7 @@ import * as fr from '@angular/common/locales/fr';
 import { LoginComponent } from './assignments/components/login/login.component';
 import { httpInterceptorProviders } from './_helpers/http.interceptor';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { CustomerDetailComponent } from './customer-detail/customer-detail.component';
 
 
 
@@ -40,7 +41,8 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    CustomerDetailComponent
   ],
   imports: [
     SharedModule,
